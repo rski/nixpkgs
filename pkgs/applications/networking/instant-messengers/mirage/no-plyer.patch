@@ -1,0 +1,48 @@
+From 46102b058153de9295186387639322f5db160767 Mon Sep 17 00:00:00 2001
+From: Romanos Skiadas <rom.skiad@gmail.com>
+Date: Wed, 8 Sep 2021 13:58:59 +0300
+Subject: [PATCH] disable desktop notifs
+
+this is so that mirage can be updated in nixpkgs
+without having to merge the plyer PR. Eventually
+plyer will get packaged and this can get removed.
+---
+ src/backend/backend.py | 18 +-----------------
+ 1 file changed, 1 insertion(+), 17 deletions(-)
+
+diff --git a/src/backend/backend.py b/src/backend/backend.py
+index 89a96a24..9cff5c63 100644
+--- a/src/backend/backend.py
++++ b/src/backend/backend.py
+@@ -17,7 +17,6 @@
+ 
+ import aiohttp
+ import nio
+-import plyer
+ import pyotherside
+ import simpleaudio
+ from appdirs import AppDirs
+@@ -589,22 +588,7 @@ async def desktop_notify(
+         self, title: str, body: str = "", image: Union[Path, str] = "",
+     ) -> None:
+         # XXX: images on windows must be .ICO
+-
+-        try:
+-            plyer.notification.notify(
+-                title    = title,
+-                message  = body,
+-                app_name = __app_name__,
+-                app_icon = str(image),
+-                timeout  = 10,
+-                toast    = False,
+-            )
+-            self.notifications_working = True
+-        except Exception:  # noqa
+-            if self.notifications_working:
+-                trace = traceback.format_exc().rstrip()
+-                log.error("Sending desktop notification failed\n%s", trace)
+-                self.notifications_working = False
++        pass
+ 
+ 
+     async def sound_notify(self) -> None:
