@@ -1211,7 +1211,8 @@ _defaultUnpack() {
         # We can't preserve hardlinks because they may have been
         # introduced by store optimization, which might break things
         # in the build.
-        cp -r --preserve=mode,timestamps --reflink=auto -- "$fn" "$destination"
+        # we also don't preserve mode, because it doesn't work on NFS post coreutils XXX.
+        cp -r --preserve=ownership,timestamps --reflink=auto -- "$fn" "$destination"
 
     else
 
